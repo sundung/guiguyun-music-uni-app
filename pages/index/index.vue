@@ -1,29 +1,59 @@
 <template>
-	<view class="container">
-		
-		<view class="intro">本项目已包含uni ui组件，无需import和注册，可直接使用。在代码区键入字母u，即可通过代码助手列出所有可用组件。光标置于组件名称处按F1，即可查看组件文档。</view>
-		<text class="intro">详见：</text>
-		<uni-link :href="href" :text="href"></uni-link>
-	</view>
+  <view class="homeContainer">
+    <!-- 轮播图区域 -->
+    <swiper 
+    :indicator-dots="true" 
+    :autoplay="true" 
+    :interval="3000" 
+    :duration="1000"
+    class="swiperContainer"
+    >
+      <swiper-item v-for="(item,index) in banners"
+    :key="index">
+        <view class="swiperItem">
+          <image :src="item.imageUrl" mode=""></image>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				href: 'https://uniapp.dcloud.io/component/README?id=uniui'
-			}
-		},
-		methods: {
-
-		}
-	}
+  import request from "../../api/request.js"
+  export default {
+    data() {
+      return {
+        banners:[], // 轮播图数据
+      };
+    },
+    created(){
+      this.getBannerList();
+    },
+    methods:{
+      // 获取轮播图数据
+      async getBannerList(){
+        let data = await request('/banner');
+        console.log(data);
+        if(data.code !== 200) {
+          return false;
+        }
+        this.banners = data.banners;
+      }
+    }
+  }
 </script>
 
-<style>
-	.container {
-		padding: 20px;
-		font-size: 14px;
-		line-height: 24px;
-	}
+<style lang="scss" scoped>
+  .homeContainer {
+    // 轮播图区域
+    .swiperContainer {
+      .swiperItem {
+        height: 300rpx;
+        image {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
 </style>
