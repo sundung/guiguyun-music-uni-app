@@ -8150,7 +8150,18 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 11 */,
+/* 11 */
+/*!******************************************************************************!*\
+  !*** /Users/sun/Desktop/guiguyun-music-uni-app/static/iconfont/iconfont.css ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+    if(false) { var cssReload; }
+  
+
+/***/ }),
 /* 12 */,
 /* 13 */,
 /* 14 */,
@@ -8158,90 +8169,16 @@ function normalizeComponent (
 /* 16 */,
 /* 17 */,
 /* 18 */
-/*!****************************************************************!*\
-  !*** /Users/sun/Desktop/guiguyun-music-uni-app/api/request.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 发送ajax请求
-/*
-* 1. 封装功能函数
-*   1. 功能点明确
-*   2. 函数内部应该保留固定代码(静态的)
-*   3. 将动态的数据抽取成形参，由使用者根据自身的情况动态的传入实参
-*   4. 一个良好的功能函数应该设置形参的默认值(ES6的形参默认值)
-* 2. 封装功能组件
-*   1. 功能点明确
-*   2. 组件内部保留静态的代码
-*   3. 将动态的数据抽取成props参数，由使用者根据自身的情况以标签属性的形式动态传入props数据
-*   4. 一个良好的组件应该设置组件的必要性及数据类型
-*     props: {
-*       msg: {
-*         required: true,
-*         default: 默认值，
-*         type: String
-*       }
-*     }
-*
-* */var _default = function _default(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';return new Promise(function (resolve, reject) {// 1. new Promise初始化promise实例的状态为pending
-    wx.request({ url: _config.default.host + url, data: data, method: method, header: { cookie: wx.getStorageSync('cookies') ? wx.getStorageSync('cookies').find(function (item) {return item.indexOf('MUSIC_U') !== -1;}) : '' }, success: function success(res) {// console.log('请求成功: ', res);
-        if (data.isLogin) {// 登录请求
-          // 将用户的cookie存入至本地
-          wx.setStorage({ key: 'cookies', data: res.cookies });}resolve(res.data); // resolve修改promise的状态为成功状态resolved
-      }, fail: function fail(err) {reject(err); // reject修改promise的状态为失败状态 rejected
-      } });});
-
-};exports.default = _default;
-
-/***/ }),
-/* 19 */
-/*!***************************************************************!*\
-  !*** /Users/sun/Desktop/guiguyun-music-uni-app/api/config.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  host: "http://sunzq.club:3000"
-  // mobileHost: 'https://zhiyongzaixian123123.utools.club'
-};exports.default = _default;
-
-/***/ }),
-/* 20 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 21);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 19);
 
 /***/ }),
-/* 21 */
+/* 19 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8272,7 +8209,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 22);
+module.exports = __webpack_require__(/*! ./runtime */ 20);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8288,7 +8225,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 22 */
+/* 20 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9019,19 +8956,78 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */
-/*!******************************************************************************!*\
-  !*** /Users/sun/Desktop/guiguyun-music-uni-app/static/iconfont/iconfont.css ***!
-  \******************************************************************************/
+/* 21 */
+/*!****************************************************************!*\
+  !*** /Users/sun/Desktop/guiguyun-music-uni-app/api/request.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-// extracted by mini-css-extract-plugin
-    if(false) { var cssReload; }
-  
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 发送ajax请求
+/*
+* 1. 封装功能函数
+*   1. 功能点明确
+*   2. 函数内部应该保留固定代码(静态的)
+*   3. 将动态的数据抽取成形参，由使用者根据自身的情况动态的传入实参
+*   4. 一个良好的功能函数应该设置形参的默认值(ES6的形参默认值)
+* 2. 封装功能组件
+*   1. 功能点明确
+*   2. 组件内部保留静态的代码
+*   3. 将动态的数据抽取成props参数，由使用者根据自身的情况以标签属性的形式动态传入props数据
+*   4. 一个良好的组件应该设置组件的必要性及数据类型
+*     props: {
+*       msg: {
+*         required: true,
+*         default: 默认值，
+*         type: String
+*       }
+*     }
+*
+* */var _default = function _default(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';return new Promise(function (resolve, reject) {// 1. new Promise初始化promise实例的状态为pending
+    wx.request({ url: _config.default.host + url, data: data, method: method, header: { cookie: wx.getStorageSync('cookies') ? wx.getStorageSync('cookies').find(function (item) {return item.indexOf('MUSIC_U') !== -1;}) : '' }, success: function success(res) {// console.log('请求成功: ', res);
+        if (data.isLogin) {// 登录请求
+          // 将用户的cookie存入至本地
+          wx.setStorage({ key: 'cookies', data: res.cookies });}resolve(res.data); // resolve修改promise的状态为成功状态resolved
+      }, fail: function fail(err) {reject(err); // reject修改promise的状态为失败状态 rejected
+      } });});
+
+};exports.default = _default;
+
+/***/ }),
+/* 22 */
+/*!***************************************************************!*\
+  !*** /Users/sun/Desktop/guiguyun-music-uni-app/api/config.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  host: "http://sunzq.club:3000"
+  // mobileHost: 'https://zhiyongzaixian123123.utools.club'
+};exports.default = _default;
 
 /***/ })
 ]]);
