@@ -2,6 +2,8 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import App from './App'
+// 导入 iconfont 字体图标
+import  './static/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 

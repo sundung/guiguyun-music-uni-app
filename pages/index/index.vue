@@ -15,6 +15,29 @@
         </view>
       </swiper-item>
     </swiper>
+    <!-- 五个轮播图区域 -->
+    <view class="navContainer">
+      <view class="navItem">
+        <text class="iconfont icon-meirituijian"></text>
+         <text>每日推荐</text>
+      </view>
+      <view class="navItem">
+        <text class="iconfont icon-gedan1"></text>
+        <text>Other页面</text>
+      </view>
+      <view class="navItem">
+        <text class="iconfont icon-icon-ranking"></text>
+        <text>排行榜</text>
+      </view>
+      <view class="navItem">
+        <text class="iconfont icon-diantai"></text>
+        <text>电台</text>
+      </view>
+      <view class="navItem">
+        <text class="iconfont icon-zhiboguankanliangbofangsheyingshexiangjixianxing"></text>
+        <text>直播</text>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -54,6 +77,32 @@
           width: 100%;
         }
       }
+    }
+    // 五个导航区域
+    .navContainer {
+      display: flex;
+      justify-content: space-evenly;
+      .navItem {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 20%;
+        .iconfont {
+          width: 100rpx;
+          height: 100rpx;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 100rpx;
+          background: rgb(240, 19, 19);
+          font-size: 50rpx;
+          color: #fff;
+          margin: 20rpx 0;
+        }
+        text {
+          font-size: 26rpx;
+        }
+      }
+       
     }
   }
 </style>
