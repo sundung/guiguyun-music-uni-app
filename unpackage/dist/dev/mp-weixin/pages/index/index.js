@@ -200,17 +200,50 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
     return {
       banners: [], // 轮播图数据
-      recommendSong: [] // 推荐歌曲列表数据
+      recommendSong: [], // 推荐歌曲列表数据
+      topSongList: [] // 排行榜数据
     };
   },
   created: function created() {
     this.getBannerList();
     this.getRecommendSong();
+    this.getTopSongList();
   },
   methods: {
     // 获取轮播图数据
@@ -227,6 +260,16 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
                   (0, _request.default)('/personalized', { limit: 10 }));case 2:data = _context2.sent;
                 console.log(data);
                 _this2.recommendSong = data.result;case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
+    // 获取排行榜数据
+    getTopSongList: function getTopSongList() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var index, data, topListItem;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                index = 0;case 1:if (!(
+                index < 5)) {_context3.next = 10;break;}_context3.next = 4;return (
+                  (0, _request.default)('/top/list', { idx: index++ }));case 4:data = _context3.sent;
+                topListItem = { name: data.playlist.name, tracks: data.playlist.tracks.slice(0, 3) };
+                _this3.topSongList.push(topListItem);
+                console.log(_this3.topSongList);_context3.next = 1;break;case 10:case "end":return _context3.stop();}}}, _callee3);}))();
+
     } } };exports.default = _default;
 
 /***/ }),

@@ -119,4 +119,66 @@
   -webkit-line-clamp: 2;
   /*设置多行的行数*/
 }
+.homeContainer .topSongList.data-v-57280228 {
+  padding: 20rpx;
+}
+.homeContainer .topSongList .header .title.data-v-57280228 {
+  font-size: 32rpx;
+  color: #666;
+}
+.homeContainer .topSongList .header .text.data-v-57280228 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  font-size: 26rpx;
+  margin-top: 20rpx;
+}
+.homeContainer .topSongList .header .text .btn.data-v-57280228 {
+  border: 1rpx solid #333;
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+  border-radius: 30rpx;
+}
+.homeContainer .topSongList .topSongListContainer .swiper-item.data-v-57280228 {
+  margin-top: 20rpx;
+  width: 96%;
+  background: #fbfbfb;
+}
+.homeContainer .topSongList .topSongListContainer .swiper-item .title.data-v-57280228 {
+  font-size: 32rpx;
+}
+.homeContainer .topSongList .topSongListContainer .swiper-item .content.data-v-57280228 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+}
+.homeContainer .topSongList .topSongListContainer .swiper-item .content image.data-v-57280228 {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 10rpx;
+}
+.homeContainer .topSongList .topSongListContainer .swiper-item .content .count.data-v-57280228 {
+  width: 100rpx;
+  height: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+}
+.homeContainer .topSongList .topSongListContainer .swiper-item .content .musicName.data-v-57280228 {
+  height: 100rpx;
+  line-height: 100rpx;
+  max-width: 400rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 

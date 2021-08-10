@@ -57,7 +57,38 @@
          </view>
        </scroll-view>
     </view>
-      
+     <!-- 排行榜区域 -->
+     <view class="topSongList">
+       <view class="header">
+         <view class="title">
+           排行榜
+         </view>
+           <view class="text">
+             <text>热歌风向标</text>
+             <text class="btn">查看更多</text>
+           </view>
+       </view>
+       <!-- 内容区域 -->
+       <swiper class="topSongListContainer" circular style="height:450rpx" next-margin="50rpx" previous-margin="50rpx">
+         <swiper-item v-for="(item,index) in topSongList" :key="index">
+           <view class="swiper-item" >
+             <!-- 头部区域 -->
+             <view class="title">
+               {{item.name}}
+             </view>
+             <view class="content" v-for="(item1,index1) in item.tracks" :key="index1">
+               <image :src="item1.al.picUrl" mode="" ></image>
+               <text class="count">{{index1 + 1}}</text>
+               <text class="musicName">{{item1.name}}</text>
+             </view>
+           </view>
+         </swiper-item>
+       </swiper>
+     </view>
+     
+     
+     
+     
   </view>
 </template>
 
@@ -68,11 +99,13 @@
       return {
         banners:[], // 轮播图数据
         recommendSong:[], // 推荐歌曲列表数据
+        topSongList:[], // 排行榜数据
       };
     },
     created(){
       this.getBannerList();
       this.getRecommendSong();
+      this.getTopSongList();
     },
     methods:{
       // 获取轮播图数据
@@ -89,6 +122,16 @@
         let data = await request('/personalized',{limit:10});
         console.log(data);
         this.recommendSong = data.result;
+      },
+      // 获取排行榜数据
+      async getTopSongList(){
+        let index = 0;
+        while(index < 5){
+          let data = await request('/top/list',{idx:index ++});
+           let topListItem = {name: data.playlist.name, tracks: data.playlist.tracks.slice(0, 3)};
+           this.topSongList.push(topListItem);
+          console.log(this.topSongList);
+        }
       }
     }
   }
@@ -177,8 +220,64 @@
           }
         }
       }
-       
-  
+    }
+    // 排行榜区域
+    .topSongList {
+      padding: 20rpx;
+      .header {
+        .title {
+          font-size: 32rpx;
+          color: #666;
+        }
+        .text {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 26rpx;
+          margin-top: 20rpx;
+          .btn {
+            border: 1rpx solid #333;
+            padding: 10rpx 20rpx;
+            font-size: 24rpx;
+            border-radius: 30rpx;
+          }
+        }
+      }
+      // 排行榜内容区域
+      .topSongListContainer {
+        .swiper-item {
+          margin-top: 20rpx;
+           width: 96%;
+           background: #fbfbfb;
+          .title {
+            font-size: 32rpx;
+          }
+         .content {
+           display: flex;
+           align-items: center;
+           margin-top: 20rpx;
+           image {
+             width: 100rpx;
+             height: 100rpx;
+             border-radius: 10rpx;
+           }
+           .count {
+               width: 100rpx;
+               height: 100rpx;
+               text-align: center;
+               line-height: 100rpx;
+           }
+           .musicName {
+               height: 100rpx;
+               line-height: 100rpx;
+               max-width: 400rpx;
+               white-space: nowrap;
+               overflow: hidden;
+               text-overflow: ellipsis;
+           }
+         }
+        }
+      }
     }
   }
 </style>
