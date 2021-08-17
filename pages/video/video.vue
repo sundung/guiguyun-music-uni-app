@@ -59,7 +59,7 @@
               // 清空当前视频列表
               this.videoList = [];
             // 点击切换时加载数据
-            // this.getVideoList(this.data.navId)
+            // this.getVideoList(this.data.navId);
           }
     }
   }
@@ -100,6 +100,7 @@
       font-size: 28rpx;
       height: 60rpx;
       line-height: 60rpx;
+      
         .active {
            border-bottom: 1rpx solid #d43c33;
         }
