@@ -34,15 +34,15 @@
                 <video 
                 class="common"
                 :poster="item.data.coverUrl" 
-                id="item.data.vid" 
-                bindplay='handlePlay' 
+                :id="item.data.vid" 
+                @tap='handlePlay' 
                 object-fit="cover"
                 :src="item.data.urlInfo.url"
                 v-if="videoId == item.data.vid"
-                bindtimeupdate="handleTimeUpdate"
-                bindended="handleEnded"
+                @timeupdate="handleTimeUpdate"
+                @ended="handleEnded"
                 ></video>
-                <image wx:else id="item.data.vid" class="common" :src="item.data.coverUrl" bindtap='handlePlay'  />
+                <image wx:else :id="item.data.vid" class="common" :src="item.data.coverUrl" @tap='handlePlay'  />
                   
                 <view class="scrollVideoContent">
                     <text class="text">{{item.data.title}}</text>
@@ -91,7 +91,6 @@
       // 获取推荐导航 /video/group/list
         async getVideoGroupList(){
           let data = await request('/video/group/list');
-          console.log(data)
             this.videoGroupList = data.data.slice(0,13);
             this.navId = data.data[0].id;
             // 此处调用导航对应下的视频数组,因为 能获取 navId
@@ -103,9 +102,9 @@
             let navId = event.currentTarget.id; // 通过id向event传参的时候如果传的是number会自动转换成string
             // let navId = event.currentTarget.dataset.id;
             // 加载loading状态
-            // wx.showLoading({
-            //   title:'正在加载'
-            // })
+            wx.showLoading({
+              title:'正在加载'
+            })
               // 获取当前导航
               this.navId = navId;
               // 清空当前视频列表
@@ -116,7 +115,6 @@
           // 获取推荐导航下对应的视频信息,注意该接口需要用户登录
             async getVideoList(navId){
               let data = await request('/video/group',{id:this.navId});
-              console.log(data);
                // 关闭loading
               if(data) {
                 // 关闭消息提示框
@@ -132,6 +130,56 @@
                 this.videoList = videoList
                 this.isTriggered = false // 控制下拉刷新的标识
             },
+            // 处理多个视频播放的问题
+              handlePlay(event){
+                console.log(event.currentTarget.id)
+                // 1.获取上一个视频的id
+                let vid = event.currentTarget.id;
+            
+                // 判断当前id不是第一个视频
+                // this.vid && this.vid != event.currentTarget.id && this.videoContext && this.videoContext.stop();
+                // this.vid = vid;
+                // 更新视频id
+                  this.videoId = vid
+                // 创建控制video标签的实例对象
+                this.videoContext = wx.createVideoContext(vid);
+                // 判断当前的视频之前是否播放过，是否有播放记录, 如果有，跳转至指定的播放位置
+                let videoItem = this.videoUpdateTime.find(item => item.vid === vid);
+                if(videoItem){
+                  this.videoContext.seek(videoItem.currentTime);
+                }
+                // 自动播放
+                this.videoContext.play();
+              },
+              // 跳转到播放过视频的对应时长
+                handleTimeUpdate(event){
+                  let videoTimeObj = {vid: event.currentTarget.id, currentTime: event.detail.currentTime};
+                  /*
+                  * 思路： 判断记录播放时长的videoUpdateTime数组中是否有当前视频的播放记录
+                  *   1. 如果有，在原有的播放记录中修改播放时间为当前的播放时间
+                  *   2. 如果没有，需要在数组中添加当前视频的播放对象
+                  *
+                  * */
+                  let videoItem = this.videoUpdateTime.find(item => item.vid === videoTimeObj.vid);
+                  if(videoItem){ // 之前有
+                    videoItem.currentTime = event.detail.currentTime;
+                  }else { // 之前没有
+                    this.videoUpdateTime.push(videoTimeObj);
+                  }
+                  // 更新videoUpdateTime的状态
+                  
+                    // this.videoUpdateTim
+                
+                },
+                // 视频播放结束调用的回调
+                handleEnded(event){
+                  // 移除记录播放时长数组中当前视频的对象
+                  // let {videoUpdateTime} = this.data;
+                  this.videoUpdateTime.splice(this.videoUpdateTime.findIndex(item => item.vid === event.currentTarget.id), 1);
+                  // this.setData({
+                  //   videoUpdateTime
+                  // })
+                },
     }
   }
 </script>

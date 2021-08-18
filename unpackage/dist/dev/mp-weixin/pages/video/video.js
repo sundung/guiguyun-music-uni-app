@@ -223,11 +223,10 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
     // 获取推荐导航 /video/group/list
     getVideoGroupList: function getVideoGroupList() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   (0, _request.default)('/video/group/list'));case 2:data = _context.sent;
-                console.log(data);
                 _this.videoGroupList = data.data.slice(0, 13);
                 _this.navId = data.data[0].id;
                 // 此处调用导航对应下的视频数组,因为 能获取 navId
-                _this.getVideoList(_this.navId);case 7:case "end":return _context.stop();}}}, _callee);}))();
+                _this.getVideoList(_this.navId);case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 点击推荐导航事件
     changeNav: function changeNav(event) {
@@ -235,9 +234,9 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
       var navId = event.currentTarget.id; // 通过id向event传参的时候如果传的是number会自动转换成string
       // let navId = event.currentTarget.dataset.id;
       // 加载loading状态
-      // wx.showLoading({
-      //   title:'正在加载'
-      // })
+      wx.showLoading({
+        title: '正在加载' });
+
       // 获取当前导航
       this.navId = navId;
       // 清空当前视频列表
@@ -248,7 +247,6 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
     // 获取推荐导航下对应的视频信息,注意该接口需要用户登录
     getVideoList: function getVideoList(navId) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var data, index, videoList;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   (0, _request.default)('/video/group', { id: _this2.navId }));case 2:data = _context2.sent;
-                console.log(data);
                 // 关闭loading
                 if (data) {
                   // 关闭消息提示框
@@ -263,7 +261,57 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
 
                 _this2.videoList = videoList;
                 _this2.isTriggered = false; // 控制下拉刷新的标识
-              case 9:case "end":return _context2.stop();}}}, _callee2);}))();} } };exports.default = _default;
+              case 8:case "end":return _context2.stop();}}}, _callee2);}))();},
+    // 处理多个视频播放的问题
+    handlePlay: function handlePlay(event) {
+      console.log(event.currentTarget.id);
+      // 1.获取上一个视频的id
+      var vid = event.currentTarget.id;
+
+      // 判断当前id不是第一个视频
+      // this.vid && this.vid != event.currentTarget.id && this.videoContext && this.videoContext.stop();
+      // this.vid = vid;
+      // 更新视频id
+      this.videoId = vid;
+      // 创建控制video标签的实例对象
+      this.videoContext = wx.createVideoContext(vid);
+      // 判断当前的视频之前是否播放过，是否有播放记录, 如果有，跳转至指定的播放位置
+      var videoItem = this.videoUpdateTime.find(function (item) {return item.vid === vid;});
+      if (videoItem) {
+        this.videoContext.seek(videoItem.currentTime);
+      }
+      // 自动播放
+      this.videoContext.play();
+    },
+    // 跳转到播放过视频的对应时长
+    handleTimeUpdate: function handleTimeUpdate(event) {
+      var videoTimeObj = { vid: event.currentTarget.id, currentTime: event.detail.currentTime };
+      /*
+                                                                                                 * 思路： 判断记录播放时长的videoUpdateTime数组中是否有当前视频的播放记录
+                                                                                                 *   1. 如果有，在原有的播放记录中修改播放时间为当前的播放时间
+                                                                                                 *   2. 如果没有，需要在数组中添加当前视频的播放对象
+                                                                                                 *
+                                                                                                 * */
+      var videoItem = this.videoUpdateTime.find(function (item) {return item.vid === videoTimeObj.vid;});
+      if (videoItem) {// 之前有
+        videoItem.currentTime = event.detail.currentTime;
+      } else {// 之前没有
+        this.videoUpdateTime.push(videoTimeObj);
+      }
+      // 更新videoUpdateTime的状态
+
+      // this.videoUpdateTim
+
+    },
+    // 视频播放结束调用的回调
+    handleEnded: function handleEnded(event) {
+      // 移除记录播放时长数组中当前视频的对象
+      // let {videoUpdateTime} = this.data;
+      this.videoUpdateTime.splice(this.videoUpdateTime.findIndex(function (item) {return item.vid === event.currentTarget.id;}), 1);
+      // this.setData({
+      //   videoUpdateTime
+      // })
+    } } };exports.default = _default;
 
 /***/ }),
 
