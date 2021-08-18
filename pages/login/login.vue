@@ -8,14 +8,14 @@
       <view class="input-content">
         <view class="input-item">
           <text class="tit">手机号码</text>
-          <input  type="text" placeholder="请输入手机号码" data-test="abc" data-type="phone" id="phone" bindinput="handleInput"/>
+          <input  type="text" placeholder="请输入手机号码" data-test="abc" data-type="phone" id="phone" @input="handleInput"/>
         </view>
         <view class="input-item">
           <text class="tit">密码</text>
-          <input type="password"  placeholder="请输入密码" data-test="abc" data-type="password" id="password" bindinput="handleInput"/>
+          <input type="password"  placeholder="请输入密码" data-test="abc" data-type="password" id="password" @input="handleInput"/>
         </view>
       </view>
-      <button class="confirm-btn" bindtap="login">登录</button>
+      <button class="confirm-btn" @click="login">登录</button>
       <view class="forget-section">
         忘记密码?
       </view>
@@ -28,11 +28,79 @@
 </template>
 
 <script>
+  import request from "../../api/request.js"
   export default {
     data() {
       return {
-        
+        phone:'',
+        password:''
       };
+    },
+    methods:{
+      handleInput(event){
+          // 获取输入框的类型
+          let type = event.currentTarget.dataset.type
+          if(type == 'phone') {
+            this.phone = event.detail.value
+          }else {
+            this.password = event.detail.value
+          }
+        },
+        // 登录按钮点击事件
+        async login(){
+          if(!this.phone) {
+            wx.showToast({
+              title:'手机号不能为空',
+              icon:'none'
+            })
+          }
+          // 定义正则表达式
+          let phoneReg = /^1(3|4|5|6|7|8|9)\d{9}$/;
+          if(!phoneReg.test(this.phone)){
+            wx.showToast({
+              title: '手机号格式错误',
+              icon: 'none'
+            })
+            return;
+          }
+          
+          if(!this.password){
+            wx.showToast({
+              title: '密码不能为空',
+              icon: 'none'
+            })
+            return;
+          }
+          // 前端验证通过
+          let result = await request('/login/cellphone',{phone:this.phone,password:this.password,isLogin:true});
+          if(result.code === 200){ // 登录成功
+            wx.showToast({
+              title: '登录成功'
+            })
+            // 将用户的信息存储至本地
+            wx.setStorageSync('userInfo', JSON.stringify(result.profile))
+            
+            // 跳转至个人中心personal页面
+            wx.reLaunch({
+              url: '/pages/person/person'
+            })
+          }else if(result.code === 400){
+            wx.showToast({
+              title: '手机号错误',
+              icon: 'none'
+            })
+          }else if(result.code === 502){
+            wx.showToast({
+              title: '密码错误',
+              icon: 'none'
+            })
+          }else {
+            wx.showToast({
+              title: '登录失败，请重新登录',
+              icon: 'none'
+            })
+          }
+        },
     }
   }
 </script>

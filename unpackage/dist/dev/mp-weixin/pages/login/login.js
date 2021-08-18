@@ -130,42 +130,109 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 18));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
-    return {};
+    return {
+      phone: '',
+      password: '' };
+
+  },
+  methods: {
+    handleInput: function handleInput(event) {
+      // 获取输入框的类型
+      var type = event.currentTarget.dataset.type;
+      if (type == 'phone') {
+        this.phone = event.detail.value;
+      } else {
+        this.password = event.detail.value;
+      }
+    },
+    // 登录按钮点击事件
+    login: function login() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var phoneReg, result;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                if (!_this.phone) {
+                  wx.showToast({
+                    title: '手机号不能为空',
+                    icon: 'none' });
+
+                }
+                // 定义正则表达式
+                phoneReg = /^1(3|4|5|6|7|8|9)\d{9}$/;if (
+                phoneReg.test(_this.phone)) {_context.next = 5;break;}
+                wx.showToast({
+                  title: '手机号格式错误',
+                  icon: 'none' });return _context.abrupt("return");case 5:if (
 
 
-  } };exports.default = _default;
+
+
+                _this.password) {_context.next = 8;break;}
+                wx.showToast({
+                  title: '密码不能为空',
+                  icon: 'none' });return _context.abrupt("return");case 8:_context.next = 10;return (
+
+
+
+
+                  (0, _request.default)('/login/cellphone', { phone: _this.phone, password: _this.password, isLogin: true }));case 10:result = _context.sent;
+                if (result.code === 200) {// 登录成功
+                  wx.showToast({
+                    title: '登录成功' });
+
+                  // 将用户的信息存储至本地
+                  wx.setStorageSync('userInfo', JSON.stringify(result.profile));
+
+                  // 跳转至个人中心personal页面
+                  wx.reLaunch({
+                    url: '/pages/person/person' });
+
+                } else if (result.code === 400) {
+                  wx.showToast({
+                    title: '手机号错误',
+                    icon: 'none' });
+
+                } else if (result.code === 502) {
+                  wx.showToast({
+                    title: '密码错误',
+                    icon: 'none' });
+
+                } else {
+                  wx.showToast({
+                    title: '登录失败，请重新登录',
+                    icon: 'none' });
+
+                }case 12:case "end":return _context.stop();}}}, _callee);}))();
+    } } };exports.default = _default;
 
 /***/ }),
 
