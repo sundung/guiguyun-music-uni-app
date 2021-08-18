@@ -284,6 +284,12 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
       // 动态更新coverTransform的状态值
       this.coverTransform = "translateY(0rpx)";
       this.coveTransition = 'transform 1s linear';
+    },
+    // 点击登录按钮跳转到登录页面
+    goToLogin: function goToLogin() {
+      wx.navigateTo({
+        url: '/pages/login/login' });
+
     } } };exports.default = _default;
 
 /***/ }),

@@ -153,8 +153,12 @@
             this.coverTransform = `translateY(0rpx)`
             this.coveTransition =  'transform 1s linear'
         },
-       
-        
+       // 点击登录按钮跳转到登录页面
+        goToLogin(){
+          wx.navigateTo({
+            url:'/pages/login/login'
+          })
+        }
     }
   }
 </script>
