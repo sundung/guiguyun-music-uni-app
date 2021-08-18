@@ -240,12 +240,12 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
   created: function created() {
     // 进入页面判断当前用户是否登录
     // 读取用户的基本信息
-    var userInfo = wx.getStorageSync('userInfo');
-    if (userInfo) {// 用户登录
+    var userInfos = wx.getStorageSync('userInfo');
+    if (userInfos) {// 用户登录
       // 更新userInfo的状态
-      this.userInfo = JSON.parse(userInfo);
+      this.userInfo = JSON.parse(userInfos);
     }
-    // this.getUserPlayRecord(this.data.userInfo.userId);
+    this.getUserPlayRecord(this.userInfo.userId);
   },
   methods: {
     // 获取用户播放记录
@@ -256,9 +256,7 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
                   item.id = index++;
                   return item;
                 });
-                console.log(userPlayRecord);
-
-                _this.userPlayRecord = userPlayRecord;case 7:case "end":return _context.stop();}}}, _callee);}))();
+                _this.userPlayRecord = userPlayRecord;case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
     handleTouchStart: function handleTouchStart(event) {
       // 获取起始坐标
@@ -290,6 +288,24 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
       wx.navigateTo({
         url: '/pages/login/login' });
 
+    },
+    // 退出操作
+    loginOut: function loginOut() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  (0, _request.default)('/logout'));case 2:data = _context2.sent;
+                console.log(data);
+                if (data.code == 200) {
+                  wx.showToast({
+                    title: '退出登录成功',
+                    icon: 'none',
+                    duration: 1500,
+                    mask: false,
+                    success: function success(result) {
+                      wx.clearStorageSync('userInfo');
+                      _this2.userInfo = {};
+                      _this2.userPlayRecord = [];
+                    } });
+
+                }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
     } } };exports.default = _default;
 
 /***/ }),

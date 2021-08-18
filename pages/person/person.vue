@@ -106,14 +106,14 @@
       };
     },
     created() {
-      // 进入页面判断当前用户是否登录
+          // 进入页面判断当前用户是否登录
           // 读取用户的基本信息
-          let userInfo = wx.getStorageSync('userInfo');
-          if(userInfo){ // 用户登录
+          var userInfos = wx.getStorageSync('userInfo');
+          if(userInfos){ // 用户登录
             // 更新userInfo的状态
-              this.userInfo =  JSON.parse(userInfo)
+              this.userInfo =  JSON.parse(userInfos)
           }
-          // this.getUserPlayRecord(this.data.userInfo.userId);
+          this.getUserPlayRecord(this.userInfo.userId);
     },
     methods:{
       // 获取用户播放记录
@@ -123,9 +123,7 @@
           let userPlayRecord = data.allData && data.allData.slice(0, 10).map(item => {
             item.id = index++;
             return item;
-          })
-          console.log(userPlayRecord)
-          
+          }) 
            this.userPlayRecord = userPlayRecord;
         },
         handleTouchStart(event){
@@ -158,7 +156,26 @@
           wx.navigateTo({
             url:'/pages/login/login'
           })
-        }
+        },
+        // 退出操作
+          async loginOut(){
+            let data = await request('/logout');
+            console.log(data)
+            if(data.code == 200) {
+              wx.showToast({
+                  title: '退出登录成功',
+                  icon: 'none',
+                  duration: 1500,
+                  mask: false,
+                  success: (result) => {
+                    wx.clearStorageSync('userInfo');
+                      this.userInfo = {}
+                      this.userPlayRecord = []
+                  }
+                })
+            }
+        },
+            
     }
   }
 </script>
