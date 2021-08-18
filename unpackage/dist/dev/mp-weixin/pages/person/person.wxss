@@ -27,6 +27,7 @@
 .personalConntainer.data-v-390a77b4 {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 .personalConntainer .userSection.data-v-390a77b4 {
   position: relative;
@@ -51,6 +52,7 @@
 }
 .personalConntainer .userSection .avatar .name.data-v-390a77b4 {
   margin-left: 20rpx;
+  line-height: 140rpx;
 }
 .personalConntainer .userSection .loginOut.data-v-390a77b4 {
   position: absolute;
@@ -126,9 +128,6 @@
   color: #d8cba9;
 }
 .personalConntainer .personalControl.data-v-390a77b4 {
-  position: absolute;
-  left: 0;
-  top: 580rpx;
   height: 740rpx;
   width: 100%;
   background-color: #f5f5f5;

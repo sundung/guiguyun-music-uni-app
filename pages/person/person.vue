@@ -33,7 +33,61 @@
               </view>
           </view>
       </view>
-    
+      <!-- 个人具体操作信息 -->
+        <!-- 个人具体操作信息 -->
+           <view
+           class="personalControl" 
+           @touchstart="handleTouchStart" 
+           @touchmove="handleTouchMove" 
+           @touchend="handleTouchEnd"
+           :style="{transform: coverTransform,transition: coveTransition}"
+           >
+               <image class="image" src="/static/images/personal/arc.png" />
+               <view class="nav-box">
+                   <view class="nav-item">
+                       <text class="iconfont icon-xiaoxi" ></text>
+                       <text class="text" >我的消息</text>   
+                   </view>
+                   <view class="nav-item">
+                       <text class="iconfont icon-myRecommender" ></text>
+                       <text class="text" >我的好友</text>   
+                   </view>
+                   <view class="nav-item">
+                       <text class="iconfont icon-gerenzhuye" ></text>
+                       <text class="text" >个人主页</text>   
+                   </view>
+                   <view class="nav-item">
+                       <text class="iconfont icon-gexingzhuangban" ></text>
+                       <text class="text" >个性装扮</text>   
+                   </view>
+               </view>
+               <!-- 个人播放记录 -->
+           <view class="personalContent">
+               <view class="title">
+                   <text class="first">最近播放</text>
+               </view>
+               <scroll-view v-if="userPlayRecord.length" scroll-x class="recentScroll" enable-flex>
+                 <view class="recentItem" v-for="(item,index) in userPlayRecord" :key="item.id">
+                   <image class="" :src="item.song.al.picUrl"/>             
+                 </view>
+               </scroll-view>
+               <view wx:else>暂无播放记录</view>
+               <view class="nav-box">
+                   <view class="item">
+                       <text>我的音乐</text>
+                       <text>></text>
+                   </view>
+                   <view class="item">
+                       <text>我的收藏</text>
+                       <text>></text>
+                   </view>
+                   <view class="item">
+                       <text>我的电台</text>
+                       <text>></text>
+                   </view>
+               </view>
+           </view>
+           </view>
   </view>
 </template>
 
@@ -42,6 +96,9 @@
   export default {
     data() {
       return {
+         startY : 0,// 手指起始的坐标
+         moveY : 0, // 手指移动的坐标
+        lmoveDistance: 0, // 手指移动的距离
         coverTransform: 'translateY(200)rpx', // 下拉动画的移动距离
         coveTransition:'', // 动画
         userInfo:{}, // 用户信息
@@ -54,11 +111,9 @@
           let userInfo = wx.getStorageSync('userInfo');
           if(userInfo){ // 用户登录
             // 更新userInfo的状态
-            this.setData({
-              userInfo: JSON.parse(userInfo)
-            })
+              this.userInfo =  JSON.parse(userInfo)
           }
-          this.getUserPlayRecord(this.data.userInfo.userId);
+          // this.getUserPlayRecord(this.data.userInfo.userId);
     },
     methods:{
       // 获取用户播放记录
@@ -70,19 +125,18 @@
             return item;
           })
           console.log(userPlayRecord)
-          this.setData({
-            userPlayRecord
-          })
+          
+           this.userPlayRecord = userPlayRecord;
         },
         handleTouchStart(event){
           // 获取起始坐标
-           startY = event.touches[0].clientY;
+           this.startY = event.touches[0].clientY;
         },
         handleTouchMove(event){
           // 获取移动的坐标
-           moveY = event.touches[0].clientY;
+           this.moveY = event.touches[0].clientY;
           // 获取手指的移动距离
-          moveDistance = moveY - startY;
+          var moveDistance = this.moveY - this.startY;
           // 禁止上划
           if(moveDistance <= 0){
             return;
@@ -92,47 +146,15 @@
             moveDistance = 80;
           }
           // 动态更新手指的移动距离
-          this.setData({
-            coverTransform: `translateY(${moveDistance}rpx)`
-          })
-          console.log(moveDistance)
+            this.coverTransform = `translateY(${moveDistance}rpx)`
         },
         handleTouchEnd(event){
           // 动态更新coverTransform的状态值
-          this.setData({
-            coverTransform: `translateY(0rpx)`,
-            coveTransition: 'transform 1s linear'
-          })
+            this.coverTransform = `translateY(0rpx)`
+            this.coveTransition =  'transform 1s linear'
         },
-        // 点击头像跳转到登录页面
-        goToLogin(){
-          wx.navigateTo({
-            url: '/pages/login/login',
-          });
-            
-        },
-        // 退出操作
-        async loginOut(){
-          console.log('object')
-          let data = await request('/logout');
-          console.log(data)
-          if(data.code == 200) {
-            wx.showToast({
-              title: '退出登录成功',
-              icon: 'none',
-              duration: 1500,
-              mask: false,
-              success: (result) => {
-                wx.clearStorageSync('userInfo');
-                this.setData({
-                  userInfo:{},
-                  userPlayRecord:[]
-                })
-              }
-            });
-              
-          }
-        },
+       
+        
     }
   }
 </script>
@@ -141,7 +163,7 @@
   .personalConntainer {
       width: 100%;
       height: 100%;
-      // position: fixed;
+      position: relative;
       // 个人信息区域
       .userSection {
           position: relative;
@@ -164,6 +186,7 @@
               }
               .name {
                   margin-left: 20rpx;
+                  line-height: 140rpx;
               }
           }
           .loginOut {
@@ -238,9 +261,9 @@
       }
       // 个人具体操作信息
       .personalControl {
-          position: absolute;
-          left: 0;
-          top: 580rpx;
+          // position: absolute;
+          // left: 0;
+          // top: 580rpx;
           height: 740rpx;
           width: 100%;
           background-color: #f5f5f5;
