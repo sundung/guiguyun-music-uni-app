@@ -22,6 +22,52 @@
           :data-id="item.id">{{item.name}}</view>
         </view>
       </scroll-view>
+    <!-- 视频区域 -->
+        <scroll-view 
+        class="scrollVideo"  
+        scroll-y 
+        bindrefresherrefresh="handleRefresher"
+        refresher-enabled
+        :refresher-triggered="isTriggered"
+        >
+            <view class="videoItem" v-for="item in videoList" :key="item.id">
+                <video 
+                class="common"
+                :poster="item.data.coverUrl" 
+                id="item.data.vid" 
+                bindplay='handlePlay' 
+                object-fit="cover"
+                :src="item.data.urlInfo.url"
+                v-if="videoId == item.data.vid"
+                bindtimeupdate="handleTimeUpdate"
+                bindended="handleEnded"
+                ></video>
+                <image wx:else id="item.data.vid" class="common" :src="item.data.coverUrl" bindtap='handlePlay'  />
+                  
+                <view class="scrollVideoContent">
+                    <text class="text">{{item.data.title}}</text>
+                    <view class="footer">
+                        <view class="left">
+                            <image class="avatar" :src="item.data.creator.avatarUrl" /> 
+                            <text class="nickname">{{item.data.creator.nickname}}</text>
+                        </view>
+                        <view class="right">
+                            <text class="item">
+                                <text class="iconfont icon-buoumaotubiao15"></text>
+                                <text class="count">{{item.data.praisedCount}}</text>
+                            </text>
+                            <text class="item">
+                                <text class="iconfont icon-pinglun1"></text>
+                                <text class="count">{{item.data.commentCount}}</text>
+                            </text>
+                            <button open-type="share" class="item btn">
+                                <text class="iconfont icon-gengduo"></text>
+                            </button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
   </view>
 </template>
 
@@ -32,6 +78,10 @@
       return {
         videoGroupList:[], // 获取视频标签列表数组
         navId:'', // 控制激活样式的标识
+        videoList:[], // 视频数组
+        videoId:'',// 视频播放的id
+        videoUpdateTime: [], // 记录video播放的时长
+        isTriggered:false // 控制下拉刷新的标识
       };
     },
     created() {
@@ -44,6 +94,8 @@
           console.log(data)
             this.videoGroupList = data.data.slice(0,13);
             this.navId = data.data[0].id;
+            // 此处调用导航对应下的视频数组,因为 能获取 navId
+           this.getVideoList(this.navId);
         },
         // 点击推荐导航事件
           changeNav(event){
@@ -59,57 +111,142 @@
               // 清空当前视频列表
               this.videoList = [];
             // 点击切换时加载数据
-            // this.getVideoList(this.data.navId);
-          }
+            this.getVideoList(this.navId);
+          },
+          // 获取推荐导航下对应的视频信息,注意该接口需要用户登录
+            async getVideoList(navId){
+              let data = await request('/video/group',{id:this.navId});
+              console.log(data);
+               // 关闭loading
+              if(data) {
+                // 关闭消息提示框
+                wx.hideLoading();
+              }
+              // 设置一个id用作遍历的 key
+              let index = 0;
+              let videoList = data.datas.map(item => {
+                item.id = index++;
+                return item;
+              })
+             
+                this.videoList = videoList
+                this.isTriggered = false // 控制下拉刷新的标识
+            },
     }
   }
 </script>
 
 <style lang="scss" scoped>
 .videoContainer {
-  padding: 0 20rpx;
-  // 搜索头部区域
-  .header {
-    height: 80rpx;
-    line-height: 80rpx;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10rpx;
-    image {
-      width: 60rpx;
-      height: 60rpx;
+    // 头部区域
+    .header {
+        display: flex;
+        padding: 10rpx;
+        image {
+            width: 60rpx;
+            height: 60rpx;
+        }
+        .search {
+            flex:1;
+            border: 1px solid #eee;
+            border-radius: 10rpx;
+            font-size: 24rpx;
+            text-align: center;
+            line-height: 60rpx;
+            margin: 0 20rpx;
+            color: #d43c33;
+        }
     }
-    .search {
-      flex: 1;
-      margin: 0 20rpx;
-      height: 60rpx;
-      border: 1px solid red;
-      border-radius: 30rpx;
-      text-align: center;
-      line-height: 60rpx;
-    }
-    
-  }
-  // 推荐导航区域
-  .scrollContainer {
-    display: flex;
-    white-space: nowrap;
-    height: 60rpx;
-    .scrollItem {
-      padding: 0 30rpx;
-      font-size: 28rpx;
-      height: 60rpx;
-      line-height: 60rpx;
-      
-        .active {
-           border-bottom: 1rpx solid #d43c33;
+    // 推荐列表区域
+    .scrollContainer {
+        display: flex;
+        white-space: nowrap;
+        height: 60rpx;
+        .scrollItem {
+            padding: 0 30rpx;
+            font-size: 28rpx;
+            height: 60rpx;
+            line-height: 60rpx;
+            .active {
+                border-bottom: 1rpx solid #d43c33;
+            }
         }
         // 防止 激活样式不在
         .scrollContent {
             height: 60rpx;
             box-sizing: border-box;
         }
-      }
-  }
+    }
+    // 视频区域
+    .scrollVideo{
+        // 固定导航区域,需要给 scroll-view 的高度,需要动态计算
+        height: calc(100vh - 152rpx);
+        margin-top: 10rpx;
+        .videoItem {
+            padding: 0 3%;
+            .common{
+                width: 100%;
+                height: 320rpx;
+                border-radius: 10rpx;
+            }
+            .scrollVideoContent{
+                
+                .text {
+                    font-size: 28rpx;
+                    width: 440rpx;
+                    height: 80rpx;
+                    line-height: 80rpx;
+                    // 单行文本溢出
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .footer {
+                    height: 100rpx;
+                    line-height: 100rpx;
+                    border-top: 1px solid #eee;
+                    display: flex;
+                    justify-content: space-between;
+                    .left {
+                        .avatar {
+                            width: 60rpx;
+                            height: 60rpx;
+                            vertical-align: middle;
+                            border-radius: 50%;
+                        }
+                        .nickname {
+                            margin-left: 20rpx;
+                            font-size: 28rpx;
+                        }
+                    }
+                    .right {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        .item {
+                            position: relative;
+                            width: 70rpx ;
+                            .count {
+                                position:absolute;
+                                top: -30rpx;
+                                font-size: 20rpx;
+                            }
+                        }
+                        button{
+                            width: 20rpx;
+                            display: inline;
+                            padding: 0;
+                            background-color: transparent;
+                            border-color: transparent;
+                            &:after {
+                                border: none;
+                              } 
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 </style>

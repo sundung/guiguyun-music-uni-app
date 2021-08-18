@@ -158,12 +158,62 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
     return {
       videoGroupList: [], // 获取视频标签列表数组
-      navId: '' // 控制激活样式的标识
+      navId: '', // 控制激活样式的标识
+      videoList: [], // 视频数组
+      videoId: '', // 视频播放的id
+      videoUpdateTime: [], // 记录video播放的时长
+      isTriggered: false // 控制下拉刷新的标识
     };
   },
   created: function created() {
@@ -175,7 +225,9 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
                   (0, _request.default)('/video/group/list'));case 2:data = _context.sent;
                 console.log(data);
                 _this.videoGroupList = data.data.slice(0, 13);
-                _this.navId = data.data[0].id;case 6:case "end":return _context.stop();}}}, _callee);}))();
+                _this.navId = data.data[0].id;
+                // 此处调用导航对应下的视频数组,因为 能获取 navId
+                _this.getVideoList(_this.navId);case 7:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 点击推荐导航事件
     changeNav: function changeNav(event) {
@@ -191,8 +243,27 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ../../api/request.
       // 清空当前视频列表
       this.videoList = [];
       // 点击切换时加载数据
-      // this.getVideoList(this.data.navId);
-    } } };exports.default = _default;
+      this.getVideoList(this.navId);
+    },
+    // 获取推荐导航下对应的视频信息,注意该接口需要用户登录
+    getVideoList: function getVideoList(navId) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var data, index, videoList;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  (0, _request.default)('/video/group', { id: _this2.navId }));case 2:data = _context2.sent;
+                console.log(data);
+                // 关闭loading
+                if (data) {
+                  // 关闭消息提示框
+                  wx.hideLoading();
+                }
+                // 设置一个id用作遍历的 key
+                index = 0;
+                videoList = data.datas.map(function (item) {
+                  item.id = index++;
+                  return item;
+                });
+
+                _this2.videoList = videoList;
+                _this2.isTriggered = false; // 控制下拉刷新的标识
+              case 9:case "end":return _context2.stop();}}}, _callee2);}))();} } };exports.default = _default;
 
 /***/ }),
 
