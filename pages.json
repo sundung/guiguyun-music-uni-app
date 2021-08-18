@@ -37,10 +37,9 @@
         }
     ],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#d43c33",
+		 "navigationBarTitleText": "硅谷云音乐",
+		 "navigationBarTextStyle": "white",
 		"app-plus": {
 			"background": "#efeff4"
 		}

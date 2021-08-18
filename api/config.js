@@ -1,4 +1,5 @@
 export default {
-  host:"http://sunzq.club:3000",
-  // mobileHost: 'https://zhiyongzaixian123123.utools.club'
+  host:"http://localhost:3000",
+  // host:"http://182.92.70.146:3000"
+  // host:"http://sunzq.club:3000"
 }

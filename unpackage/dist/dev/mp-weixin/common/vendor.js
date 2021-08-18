@@ -9025,8 +9025,9 @@ var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 22));fu
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  host: "http://sunzq.club:3000"
-  // mobileHost: 'https://zhiyongzaixian123123.utools.club'
+  host: "http://localhost:3000"
+  // host:"http://182.92.70.146:3000"
+  // host:"http://sunzq.club:3000"
 };exports.default = _default;
 
 /***/ })
