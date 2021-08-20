@@ -8150,18 +8150,7 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 11 */
-/*!******************************************************************************!*\
-  !*** /Users/sun/Desktop/guiguyun-music-uni-app/static/iconfont/iconfont.css ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-    if(false) { var cssReload; }
-  
-
-/***/ }),
+/* 11 */,
 /* 12 */,
 /* 13 */,
 /* 14 */,
@@ -9025,8 +9014,8 @@ var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 22));fu
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  host: "http://localhost:3000"
-  // host:"http://182.92.70.146:3000"
+  // host:"http://127.0.0.1:3000",
+  host: "http://182.92.70.146:3000"
   // host:"http://sunzq.club:3000"
 };exports.default = _default;
 

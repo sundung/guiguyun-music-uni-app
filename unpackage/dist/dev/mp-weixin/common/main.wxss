@@ -14,8 +14,7 @@
 
 
 
-/*每个页面公共css */
-
+  /* 导入 iconfont 字体图标 */
 @font-face {
   font-family:"iconfont";
   src: url('//at.alicdn.com/t/font_1686339_sgjgtmoa3kj.eot?t=1601969873487');
@@ -178,4 +177,5 @@
 .icon-pinglun11:before {
   content:"\e600";
 }
+	/*每个页面公共css */
 

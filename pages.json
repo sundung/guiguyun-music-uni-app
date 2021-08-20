@@ -3,7 +3,7 @@
             "path" : "pages/index/index",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "硅谷云音乐",
                 "enablePullDownRefresh": false
             }
             
@@ -37,11 +37,12 @@
         }
     ],
 	"globalStyle": {
-		"navigationBarBackgroundColor": "#d43c33",
-		 "navigationBarTitleText": "硅谷云音乐",
-		 "navigationBarTextStyle": "white",
+        "navigationBarBackgroundColor": "#d43c33",
+            "navigationBarTextStyle": "white",
+            "navigationBarTitleText": "硅谷云音乐",
 		"app-plus": {
 			"background": "#efeff4"
+      // "titleNView":false
 		}
 	},
   "tabBar": {
@@ -52,21 +53,31 @@
         {
           "pagePath": "pages/index/index",
           "text": "主页",
-          "iconPath": "/static/images/tabs/tab-home.png",
-          "selectedIconPath": "/static/images/tabs/tab-home-current.png"
+          "iconPath": "static/images/tabs/tab-home.png",
+          "selectedIconPath": "static/images/tabs/tab-home-current.png"
         },
         {
           "pagePath": "pages/video/video",
           "text": "视频",
-          "iconPath": "./static/images/tabs/select.png",
-          "selectedIconPath": "./static/images/tabs/selected.png"
+          "iconPath": "static/images/tabs/select.png",
+          "selectedIconPath": "static/images/tabs/selected.png"
         },
         {
           "pagePath": "pages/person/person",
           "text": "个人中心",
-          "iconPath": "/static/images/tabs/tab-my.png",
-          "selectedIconPath": "/static/images/tabs/tab-my-current.png"
+          "iconPath": "static/images/tabs/tab-my.png",
+          "selectedIconPath": "static/images/tabs/tab-my-current.png"
         }
       ]
-    }
+    },
+  "condition" : { //模式配置，仅开发期间生效
+    "current": 0, //当前激活的模式(list 的索引项)
+    "list": [
+      {
+        "name": "", //模式名称
+        // "path": "/pages/index/index", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      }
+    ]
+  }
 }

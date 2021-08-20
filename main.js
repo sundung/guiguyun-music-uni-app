@@ -2,8 +2,7 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import App from './App'
-// 导入 iconfont 字体图标
-import  './static/iconfont/iconfont.css'
+
 
 Vue.config.productionTip = false
 
@@ -15,13 +14,13 @@ const app = new Vue({
 app.$mount()
 // #endif
 
-// #ifdef VUE3
-import { createSSRApp } from 'vue'
-import App from './App.vue'
-export function createApp() {
-  const app = createSSRApp(App)
-  return {
-    app
-  }
-}
-// #endif
+// // #ifdef VUE3
+// import { createSSRApp } from 'vue'
+// import App from './App.vue'
+// export function createApp() {
+//   const app = createSSRApp(App)
+//   return {
+//     app
+//   }
+// }
+// // #endif
