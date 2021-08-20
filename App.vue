@@ -15,6 +15,6 @@
 
 <style>
   /* 导入 iconfont 字体图标 */
-  @import  'static/iconfont/iconfont.css'
+  @import  'static/iconfont/iconfont.css';
 	/*每个页面公共css */
 </style>

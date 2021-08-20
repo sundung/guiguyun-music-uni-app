@@ -33,9 +33,9 @@
             <view class="videoItem" v-for="item in videoList" :key="item.id">
                 <video 
                 class="common"
-                :poster="item.data.coverUrl" 
+                poster="item.data.coverUrl" 
                 :id="item.data.vid" 
-                @tap='handlePlay' 
+                @play='handlePlay' 
                 object-fit="cover"
                 :src="item.data.urlInfo.url"
                 v-if="videoId == item.data.vid"
@@ -81,7 +81,8 @@
         videoList:[], // 视频数组
         videoId:'',// 视频播放的id
         videoUpdateTime: [], // 记录video播放的时长
-        isTriggered:false // 控制下拉刷新的标识
+        isTriggered:false ,// 控制下拉刷新的标识
+        videoContext:null, // 视频播放实例对象
       };
     },
     created() {
@@ -135,14 +136,11 @@
                 console.log(event.currentTarget.id)
                 // 1.获取上一个视频的id
                 let vid = event.currentTarget.id;
-            
-                // 判断当前id不是第一个视频
-                // this.vid && this.vid != event.currentTarget.id && this.videoContext && this.videoContext.stop();
-                // this.vid = vid;
                 // 更新视频id
                   this.videoId = vid
                 // 创建控制video标签的实例对象
                 this.videoContext = wx.createVideoContext(vid);
+                console.log( this.videoContext);
                 // 判断当前的视频之前是否播放过，是否有播放记录, 如果有，跳转至指定的播放位置
                 let videoItem = this.videoUpdateTime.find(item => item.vid === vid);
                 if(videoItem){
@@ -167,8 +165,6 @@
                     this.videoUpdateTime.push(videoTimeObj);
                   }
                   // 更新videoUpdateTime的状态
-                  
-                    // this.videoUpdateTim
                 
                 },
                 // 视频播放结束调用的回调
