@@ -50,11 +50,13 @@
           </view>
       </view>
       <!-- 内容区域 -->
-      <scroll-view class="recommendSongScroll" scroll-x  enable-flex>
-         <view class="scrollItem" v-for="(item,index) in recommendSong" :key="index">
-           <image class="image" :src="item.picUrl" mode=""></image>
-           <text>{{item.name}}</text>
-         </view>
+      <scroll-view class="recommendSongScroll" scroll-x='true'  enable-flex='true'>
+         <block   v-for="(item,index) in recommendSong" :key="index">
+             <view class="scrollItem">
+               <image class="image" :src="item.picUrl" mode=""></image>
+               <text>{{item.name}}</text>
+             </view>
+         </block>
        </scroll-view>
     </view>
      <!-- 排行榜区域 -->
@@ -201,8 +203,10 @@
         margin-top: 20rpx;
         height: 300rpx;
         display: flex;
+        white-space: nowrap;
         .scrollItem {
           width: 200rpx;
+          display: inline-block;
           margin-right: 20rpx;
           .image {
             width: 200rpx;
