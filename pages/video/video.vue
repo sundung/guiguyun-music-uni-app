@@ -34,7 +34,7 @@
                 <video 
                 class="common"
                 poster="item.data.coverUrl" 
-                :id="item.data.vid" 
+                :data-id="item.data.vid" 
                 @play='handlePlay' 
                 object-fit="cover"
                 :src="item.data.urlInfo.url"
@@ -42,7 +42,7 @@
                 @timeupdate="handleTimeUpdate"
                 @ended="handleEnded"
                 ></video>
-                <image wx:else :id="item.data.vid" class="common" :src="item.data.coverUrl" @tap='handlePlay'  />
+                <image v-else :data-id="item.data.vid" class="common" :src="item.data.coverUrl" @tap='handlePlay'  />
                   
                 <view class="scrollVideoContent">
                     <text class="text">{{item.data.title}}</text>
@@ -133,9 +133,10 @@
             },
             // 处理多个视频播放的问题
               handlePlay(event){
-                console.log(event.currentTarget.id)
+                console.log('111')
+                console.log(JSON.stringify(event.currentTarget.dataset.id))
                 // 1.获取上一个视频的id
-                let vid = event.currentTarget.id;
+                let vid = event.currentTarget.dataset.id;
                 // 更新视频id
                   this.videoId = vid
                 // 创建控制video标签的实例对象
