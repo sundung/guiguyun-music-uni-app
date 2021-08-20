@@ -8156,18 +8156,17 @@ function normalizeComponent (
 /* 14 */,
 /* 15 */,
 /* 16 */,
-/* 17 */,
-/* 18 */
+/* 17 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 19);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 18);
 
 /***/ }),
-/* 19 */
+/* 18 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8198,7 +8197,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 20);
+module.exports = __webpack_require__(/*! ./runtime */ 19);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8214,7 +8213,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -8945,7 +8944,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /*!****************************************************************!*\
   !*** /Users/sun/Desktop/guiguyun-music-uni-app/api/request.js ***!
   \****************************************************************/
@@ -8974,7 +8973,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 发送ajax请求
+var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 发送ajax请求
 /*
 * 1. 封装功能函数
 *   1. 功能点明确
@@ -9005,7 +9004,7 @@ var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 22));fu
 };exports.default = _default;
 
 /***/ }),
-/* 22 */
+/* 21 */
 /*!***************************************************************!*\
   !*** /Users/sun/Desktop/guiguyun-music-uni-app/api/config.js ***!
   \***************************************************************/
