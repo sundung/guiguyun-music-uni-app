@@ -70,7 +70,7 @@
           
           // 订阅来自songDetail页面发布的消息
           PubSub.subscribe('switchType', (msg, type) => {
-            let {recommendList, index} = this.data;
+            let {recommendList, index} = this;
             if(type === 'pre'){ // 上一首
               (index === 0) && (index = recommendList.length);
               index -= 1;
