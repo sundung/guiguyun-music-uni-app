@@ -3,7 +3,7 @@
     <!-- 搜索头部区域 -->
     <view class="header">
       <image src="/static/images/video/video.jpg"></image>
-      <view class="search" bindtap="goToSearch">
+      <view class="search" @click="goToSearch">
         搜索音乐
       </view>
       <image src="/static/images/logo.png"></image>
@@ -168,9 +168,14 @@
                 // 视频播放结束调用的回调
                 handleEnded(event){
                   // 移除记录播放时长数组中当前视频的对象
-                  this.videoUpdateTime.splice(this.videoUpdateTime.findIndex(item => item.vid === event.currentTarget.dataset.id), 1);
-                 
+                  this.videoUpdateTime.splice(this.videoUpdateTime.findIndex(item => item.vid === event.currentTarget.dataset.id), 1);  
                 },
+                // 跳转到搜索页面
+                goToSearch(){
+                  uni.navigateTo({
+                    url:"/pages/search/search"
+                  })
+                }
     }
   }
 </script>
