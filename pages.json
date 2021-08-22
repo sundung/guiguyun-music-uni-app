@@ -35,6 +35,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/recommendSong/recommendSong",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
         "navigationBarBackgroundColor": "#d43c33",

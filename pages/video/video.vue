@@ -133,15 +133,12 @@
             },
             // 处理多个视频播放的问题
               handlePlay(event){
-                console.log('111')
-                console.log(JSON.stringify(event.currentTarget.dataset.id))
                 // 1.获取上一个视频的id
                 let vid = event.currentTarget.dataset.id;
                 // 更新视频id
                   this.videoId = vid
                 // 创建控制video标签的实例对象
                 this.videoContext = wx.createVideoContext(vid);
-                console.log( this.videoContext);
                 // 判断当前的视频之前是否播放过，是否有播放记录, 如果有，跳转至指定的播放位置
                 let videoItem = this.videoUpdateTime.find(item => item.vid === vid);
                 if(videoItem){
@@ -152,7 +149,7 @@
               },
               // 跳转到播放过视频的对应时长
                 handleTimeUpdate(event){
-                  let videoTimeObj = {vid: event.currentTarget.id, currentTime: event.detail.currentTime};
+                  let videoTimeObj = {vid: event.currentTarget.dataset.id, currentTime: event.detail.currentTime};
                   /*
                   * 思路： 判断记录播放时长的videoUpdateTime数组中是否有当前视频的播放记录
                   *   1. 如果有，在原有的播放记录中修改播放时间为当前的播放时间
@@ -171,11 +168,8 @@
                 // 视频播放结束调用的回调
                 handleEnded(event){
                   // 移除记录播放时长数组中当前视频的对象
-                  // let {videoUpdateTime} = this.data;
-                  this.videoUpdateTime.splice(this.videoUpdateTime.findIndex(item => item.vid === event.currentTarget.id), 1);
-                  // this.setData({
-                  //   videoUpdateTime
-                  // })
+                  this.videoUpdateTime.splice(this.videoUpdateTime.findIndex(item => item.vid === event.currentTarget.dataset.id), 1);
+                 
                 },
     }
   }

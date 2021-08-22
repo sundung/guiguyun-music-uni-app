@@ -17,7 +17,7 @@
     </swiper>
     <!-- 五个轮播图区域 -->
     <view class="navContainer">
-      <view class="navItem">
+      <view class="navItem" @click="goTorecommendSong">
         <text class="iconfont icon-meirituijian"></text>
          <text>每日推荐</text>
       </view>
@@ -134,6 +134,12 @@
            this.topSongList.push(topListItem);
           console.log(this.topSongList);
         }
+      },
+      // 点击每日推荐跳转到推荐页面
+      goTorecommendSong(){
+        uni.navigateTo({
+          url:'/pages/recommendSong/recommendSong'
+        })
       }
     }
   }
