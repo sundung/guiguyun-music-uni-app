@@ -18,7 +18,7 @@
   
       <!-- 内容区 -->
       <scroll-view scroll-y class='listScroll'>
-        <view class="scrollItem" v-for="(item,index) in recommendList" :key="item.id" data-index="index" data-song='item' @click="toSongDetail">
+        <view class="scrollItem" v-for="(item,index) in recommendList" :key="item.id" :data-index="index" :data-song='item' @click="goToSongDetail">
           <image :src="item.album.picUrl"></image>
           <view class="musicInfo">
             <text class="musicName">{{item.name}}</text>
@@ -98,6 +98,17 @@
             this.recommendList = recommendListData.recommend
          
         },
+        // 跳转至songDetail页面
+          goToSongDetail(event){
+            let {song, index} = event.currentTarget.dataset;
+              this.index = index;
+            // 路由跳转传参： query参数
+            uni.navigateTo({
+              // 不能直接将song对象作为参数传递，长度过长，会被自动截取掉
+              // url: '/pages/songDetail/songDetail?songPackage=' + JSON.stringify(songPackage)
+              url: '/pages/songDetail/songDetail?musicId=' + song.id
+            })
+          }
     }
   }
 </script>
