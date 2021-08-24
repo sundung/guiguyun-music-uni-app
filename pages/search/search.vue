@@ -53,7 +53,6 @@
 
 <script>
   import request from "../../api/request.js"
-  let isSend = false; // 函数节流使用
   export default {
     data() {
       return {
@@ -62,7 +61,7 @@
         searchContent: '', // 用户输入的表单项数据
         searchList: [], // 关键字模糊匹配的数据
         historyList: [], // 搜索历史记录
-        // isSend:false, // 节流使用
+        timeout:null, // 节流使用
       };
     },
     created(){
@@ -88,17 +87,8 @@
               this.historyList = historyList;
           }
         },
-        
-        // 表单项内容发生改变的回调
-         handleInputChange(event){
-          // console.log(event);
-          // 更新searchContent的状态数据
-            this.searchContent =  event.detail.value.trim()
-            // TODO 节流
-           this.getSearchList();
-        },
         // 获取搜索数据的功能函数
-        async getSearchList(){
+       async getSearchList(){
           if(!this.searchContent){
               this.searchList = []
             return;
@@ -115,7 +105,17 @@
           historyList.unshift(searchContent);
             this.historyList = historyList
           
-          wx.setStorageSync('searchHistory', historyList)
+          uni.setStorageSync('searchHistory', historyList)
+        },
+        // 表单项内容发生改变的回调
+         handleInputChange(event){
+          // 更新searchContent的状态数据
+            this.searchContent =  event.detail.value.trim()
+            // 节流
+            if(this.timeout !== null) clearTimeout(this.timeout)     
+                  this.timeout = setTimeout(() => {
+                   this.getSearchList();
+                }, 1000)
         },
         // 清空搜索内容
         clearSearchContent(){
@@ -138,21 +138,6 @@
           })
          
         },
-        // 节流
-         throttle(fn, delay) {
-             var timer;
-             return function () {
-                 var _this = this;
-                 var args = arguments;
-                 if (timer) {
-                     return;
-                 }
-                 timer = setTimeout(function () {
-                     fn.apply(_this, args);
-                     timer = null; // 在delay后执行完fn之后清空timer，此时timer为假，throttle触发可以进入计时器
-                 }, delay)
-             }
-         }
     }
   }
 </script>
